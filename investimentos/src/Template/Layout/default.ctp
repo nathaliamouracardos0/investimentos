@@ -1,63 +1,40 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = 'CakePHP: the rapid development php framework';
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-<body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
+<div class="row">
+    <div class="col-md-8">
+        <h2><?= __('Posts'); ?></h2>
+        <table class="table table-bordered">
+        <tr>
+            <th><?= $this->Paginator->sort('id'); ?></th>
+            <th><?= $this->Paginator->sort('title'); ?></th>
+            <th><?= $this->Paginator->sort('body'); ?></th>
+            <th><?= $this->Paginator->sort('created'); ?></th>
+            <th class="actions"><?= __('Actions'); ?></th>
+        </tr>
+        <?php foreach ($posts as $post): ?>
+        <tr>
+            <td><?= h($post->id); ?>&nbsp;</td>
+            <td><?= h($post->title); ?>&nbsp;</td>
+            <td><?= h($post->body); ?>&nbsp;</td>
+            <td><?= h($post->created); ?>&nbsp;</td>
+            <td class="actions">
+                <?= $this->Html->link(__('View'), ['action' => 'view', $post->id], ['class' => 'btn btn-sm btn-default']); ?>
+                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $post->id], ['class' => 'btn btn-sm btn-info']); ?>
+                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $post->id], ['confirm' => __('Are you sure you want to delete # %s?', $post->id), 'class' => 'btn btn-sm btn-danger']); ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+        </table>
+        <p><?= $this->Paginator->counter(); ?></p>
+        <ul class="pagination">
+        <?php
+            echo $this->Paginator->prev('< ' . __('previous'));
+            echo $this->Paginator->numbers();
+            echo $this->Paginator->next(__('next') . ' >');
+        ?>
         </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-                <?php if($username): ?>
-                    <li><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']) ?></li>
-                <?php elseif (!$username): ?>
-                    <li><?= $this->Html->link(__('Sign In'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-                <?php endif; ?>
-                
-            </ul>
-        </div>
-    </nav>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
     </div>
-    <footer>
-    </footer>
-</body>
-</html>
+    <div class="col-md-4">
+            <h3><?= __('Actions'); ?></h3>
+
+            <?= $this->Html->link(__('New Post'), ['action' => 'add'], ['class' => 'btn btn-default']); ?>
+    </div>
+</div>

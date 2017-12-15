@@ -74,6 +74,9 @@ class AppController extends Controller
         if(!array_key_exists('_serialize', $this->viewVars) && in_array($this -> response->type(), ['application/json', 'application/xml'])) {
             $this->set('_serialize', true);
         }
+
+     $this->viewBuilder()->setTheme('Twit');
+
     }
 
     public function beforeFilter(Event $event) 
